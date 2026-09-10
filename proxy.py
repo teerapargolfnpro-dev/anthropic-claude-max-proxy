@@ -329,7 +329,7 @@ async def anthropic_messages(request: AnthropicMessageRequest, raw_request: Requ
     headers_dict = dict(raw_request.headers)
 
     logger.info(f"[{request_id}] ===== NEW ANTHROPIC MESSAGES REQUEST =====")
-    log_request(request_id, request.model_dump(), "/v1/messages", headers_dict)
+    log_request(request_id, request.dict(), "/v1/messages", headers_dict)
 
     # Get valid access token with automatic refresh
     access_token = await oauth_manager.get_valid_token_async()
@@ -341,7 +341,7 @@ async def anthropic_messages(request: AnthropicMessageRequest, raw_request: Requ
         )
 
     # Prepare Anthropic request (pass through client parameters directly)
-    anthropic_request = request.model_dump()
+    anthropic_request = request.dict()
 
     # Ensure max_tokens is sufficient if thinking is enabled
     thinking = anthropic_request.get("thinking")
